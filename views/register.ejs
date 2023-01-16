@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrandMonitor - Register</title>
+
+    <!-- css -->
+    <link rel="stylesheet" type="text/css" href="../src/css/style.css" />
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+    
+</head>
+
+<body>
+    
+        <script src="../src/controllers/authController.js"></script>
+    <script>
+      
+
+        const form = document.getElementById('reg-form')
+        form.addEventListener('submit', registerUser)
+
+        async function registerUser(event) {
+            event.preventDefault()
+            const username = document.getElementById('uname').value;
+            const lastName = document.getElementById('ulname').value;
+            const email = document.getElementById('uemail').value;
+            const password = document.getElementById('upsw').value;
+            const birthday = document.getElementById('udate').value;
+            const gender = document.getElementById('ugender').value;
+
+            const result = await fetch('/src/pages/register', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username,
+                    lastName,
+                    email,
+                    password,
+                    birthday,
+                    gender,
+                })
+
+            }).then((res) => res.json())
+           if(result.status === 'ok'){
+               alert('Cadastrado com sucesso!');
+               window.location.href = 'http://localhost:3000/';
+           } else {
+            alert(result.error)
+           }
+            
+        }
+    </script>
+</body>
+
+</html>

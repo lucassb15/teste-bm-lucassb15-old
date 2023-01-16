@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BrandMonitor - Login</title>
+
+    <!-- css -->
+    <link rel="stylesheet" type="text/css" href="./src/css/style.css" />
+    <!-- <link rel="stylesheet" href="./css/style.css"> -->
+    <!-- fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;700&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <main>
+        <section class="section-container" id="login">
+
+            <div class="container">
+                <div class="logo-box">
+                    <img class="logo-size" src="./src/img/bmLogo.svg" alt="">
+                </div>
+                <form id="log-form" >
+                    <div class="container-uinfo">
+                        <label for="uemail">E-mail</label>
+                        <input id="uemail" type="email" placeholder="exemplo@email.com" name="uemail" autocomplete="off"
+                            required>
+                        <label for="usenha">Senha</label>
+                        <input id="upsw" type="password" placeholder="*********" name="upsw" required>
+                        <button type="submit">Login</button>
+                        <div class="register-link">
+                        <p class="subtitle">Não é cadastrado?</p>
+                        <a class="subtitle" href="/views/register">Criar uma conta</a>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </section>
+    </main>
+
+    <script>
+      
+
+        const form = document.getElementById('log-form')
+        form.addEventListener('submit', login)
+
+        async function login(event) {
+				event.preventDefault()
+				const email = document.getElementById('uemail').value
+				const password = document.getElementById('upsw').value
+
+				const result = await fetch('/', {
+					method: 'POST',
+					headers: {
+						'Content-Type': 'application/json'
+					},
+					body: JSON.stringify({
+						email,
+						password
+					})
+				}).then((res) => res.json())
+
+				if (result.status === 'ok') {
+					// everythign went fine
+					console.log('Got the token: ', result.data)
+					alert('Success')
+                    localStorage.setItem('token', result.data)
+                    window.location.href = '/views/home';
+				} else {
+					alert(result.error)
+				}
+            
+        }
+    </script>
+</body>
+
+</html>
